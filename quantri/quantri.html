@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Quản trị</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            background-color: orange;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 10px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            list-style: none;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            height: 50px;
+            text-decoration: none;
+            position: relative;
+            padding-left: 10px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .sidebar li a:hover:before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            height: 5px;
+            width: 5px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        .sidebar li a i {
+            font-size: 24px;
+            min-width: 45px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black-light-color);
+        }
+
+        .sidebar li a .link-name {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--black-light-color);
+        }
+
+        .sidebar li a:hover .link-name {
+            color: var(--primary-color);
+        }
+
+        .main-content {
+            flex: 1;
+            background-color: #f4f4f4;
+            color: black;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            overflow-y: auto;
+        }
+
+        header button {
+            padding: 10px 20px;
+            margin: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        header button:hover {
+            background-color: #0056b3;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode .main-content {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        body.dark-mode header button {
+            background-color: #333;
+            color: white;
+            border: none;
+        }
+
+        body.dark-mode .sidebar ul li a {
+            color: #aaa;
+        }
+
+        body.dark-mode .sidebar ul li a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .logo {
+            border-radius: 10px;
+        }
+
+        .sidebar li a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .dash-content {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .overview {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .boxes {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 150px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+        }
+
+        .box i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #ff4757;
+        }
+
+        .box .text {
+            display: block;
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .box .number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .box1 i {
+            color: #ff4757;
+        }
+
+        .box2 i {
+            color: #1e90ff;
+        }
+
+        .box3 i {
+            color: #2ed573;
+        }
+
+        .activity {
+            margin-top: 40px;
+        }
+
+        .activity .title {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .activity .title i {
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        body.dark-mode table,
+        body.dark-mode th,
+        body.dark-mode td {
+            border-color: #555;
+        }
+
+        body.dark-mode th {
+            background-color: #333;
+        }
+
+        body.dark-mode tr:nth-child(even) {
+            background-color: #444;
+        }
+
+        body.dark-mode tr:hover {
+            background-color: #555;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2><a href="/index.html">
+                    <img width="200px" src="/img/logo (2).png" alt="Logo" class="logo">
+                </a></h2>
+
+            <ul class="nav-links">
+
+                <li><a data-section="all" class="nav-link">
+                        <i class="fa-solid fa-bars"></i>
+                        <span class="link-name">Tổng quan</span>
+                    </a></li>
+
+                <li><a data-section="like" class="nav-link">
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="link-name">Lượt thích</span>
+                    </a></li>
+
+                <li><a data-section="cmt" class="nav-link">
+                        <i class="fa-solid fa-comment"></i>
+                        <span class="link-name">Bình luận</span>
+                    </a></li>
+
+                <li><a data-section="money" class="nav-link">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <span class="link-name">Doanh số</span>
+                    </a></li>
+
+                <li><a data-section="tk" class="nav-link">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="link-name">Tài khoản</span>
+                    </a></li>
+
+                <li><a data-section="cd" class="nav-link">
+                        <i class="fa-solid fa-gear"></i>
+                        <span class="link-name">Cài đặt</span>
+                    </a></li>
+
+            </ul>
+
+
+            <ul>
+                <li>
+                    <header>
+                        <button id="toggle-theme">
+                            <i class="fa-solid fa-moon"></i>
+                            Dark mode
+                        </button>
+                    </header>
+
+                    <a href="/index.html">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="link-name">Thoát</span>
+                    </a>
+
+                </li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <section id="all" class="content hidden">
+                <h1>Tổng quan</h1>
+                <div class="dash-content">
+                    <div class="overview">
+                        <div class="boxes">
+                            <div class="box box1">
+                                <i class="fa-solid fa-heart"></i>
+                                <span class="text">Lượt thích</span>
+                                <span class="number">10k</span>
+                            </div>
+
+                            <div class="box box1">
+                                <i class="fa-solid fa-comment"></i>
+                                <span class="text">Bình luận</span>
+                                <span class="number">1000</span>
+                            </div>
+
+                            <div class="box box1">
+                                <i class="fa-solid fa-share"></i>
+                                <span class="text">Lượt share</span>
+                                <span class="number">241</span>
+                            </div>
+
+                            <div class="box box1">
+                                <i class="fa-solid fa-chart-simple"></i>
+                                <span class="text">Doanh số</span>
+                                <span class="number">10 tỷ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="title">
+                            <i class="fa-solid fa-store"></i>
+                            <span class="text">Lịch sử bán hàng</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tên khách hàng</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>Ngày mua</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nguyễn Văn A</td>
+                                    <td>Sản phẩm 1</td>
+                                    <td>2</td>
+                                    <td>200,000 VND</td>
+                                    <td>01/01/2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Trần Thị B</td>
+                                    <td>Sản phẩm 2</td>
+                                    <td>1</td>
+                                    <td>150,000 VND</td>
+                                    <td>03/01/2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Lê Văn C</td>
+                                    <td>Sản phẩm 3</td>
+                                    <td>5</td>
+                                    <td>500,000 VND</td>
+                                    <td>05/01/2024</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="like" class="content hidden">
+                <h1>Lượt thích</h1>
+            </section>
+            <section id="cmt" class="content hidden">
+                <h1>Bình luận</h1>
+            </section>
+            <section id="money" class="content hidden">
+                <h1>Doanh số</h1>
+            </section>
+            <section id="tk" class="content hidden">
+                <h1>Tài khoản</h1>
+            </section>
+            <section id="cd" class="content hidden">
+                <h1>Cài đặt</h1>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleThemeBtn = document.getElementById('toggle-theme');
+            const body = document.body;
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content');
+
+            toggleThemeBtn.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetSection = link.getAttribute('data-section');
+                    sections.forEach(section => {
+                        if (section.id === targetSection) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
